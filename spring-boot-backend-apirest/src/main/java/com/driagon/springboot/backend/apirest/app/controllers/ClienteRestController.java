@@ -4,6 +4,9 @@ import com.driagon.springboot.backend.apirest.app.models.Cliente;
 import com.driagon.springboot.backend.apirest.app.services.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -28,6 +31,12 @@ public class ClienteRestController {
     @GetMapping("")
     public List<Cliente> index() {
         return this.service.findAll();
+    }
+
+    @GetMapping("/page/{page}")
+    public Page<Cliente> index(@PathVariable("page") Integer page) {
+        Pageable pageable = PageRequest.of(page, 4);
+        return this.service.findAll(pageable);
     }
 
     @GetMapping("/{id}")
