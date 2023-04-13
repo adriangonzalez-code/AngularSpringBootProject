@@ -1,6 +1,9 @@
 package com.driagon.springboot.backend.apirest.app.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,12 +15,17 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "No puede estar vacío")
+    @Size(min = 4, max = 12, message = "El tamaño tiene que estar entre 4 y 12")
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
+    @NotEmpty(message = "No puede estar vacío")
     @Column(name = "apellido")
     private String apellido;
 
+    @NotEmpty(message = "No puede estar vacío")
+    @Email(message = "No es una dirección de correo bien formada")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
