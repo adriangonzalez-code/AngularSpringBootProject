@@ -1,6 +1,7 @@
 package com.driagon.springboot.backend.apirest.app.services;
 
 import com.driagon.springboot.backend.apirest.app.models.Cliente;
+import com.driagon.springboot.backend.apirest.app.models.Region;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,6 @@ public interface IClienteService {
     Cliente save(Cliente cliente);
 
     void delete(Long id);
+
+    public List<Region> findAllRegiones();
 }

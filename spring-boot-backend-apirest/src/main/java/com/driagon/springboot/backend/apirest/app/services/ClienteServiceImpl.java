@@ -1,6 +1,7 @@
 package com.driagon.springboot.backend.apirest.app.services;
 
 import com.driagon.springboot.backend.apirest.app.models.Cliente;
+import com.driagon.springboot.backend.apirest.app.models.Region;
 import com.driagon.springboot.backend.apirest.app.repositories.IClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,5 +45,11 @@ public class ClienteServiceImpl implements IClienteService {
     @Transactional
     public void delete(Long id) {
         this.repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Region> findAllRegiones() {
+        return this.repository.findAllRegiones();
     }
 }

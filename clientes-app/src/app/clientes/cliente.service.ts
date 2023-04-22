@@ -6,6 +6,7 @@ import {HttpClient, HttpEvent, HttpHeaders, HttpRequest} from "@angular/common/h
 import { Router } from "@angular/router";
 import swal from "sweetalert2";
 import { DatePipe, formatDate } from "@angular/common";
+import {Region} from "./Region";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class ClienteService {
   private httpHeader : HttpHeaders = new HttpHeaders({'Content-type': 'application/json'});
 
   constructor(private http : HttpClient, private router : Router) {}
+
+  getRegiones(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndpoint + '/regiones');
+  }
 
   getClientes(page: number) : Observable<any> {
     // return of(CLIENTES);
