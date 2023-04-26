@@ -4,6 +4,7 @@ import { ClienteService } from "../cliente.service";
 import swal from "sweetalert2";
 import { HttpEventType } from "@angular/common/http";
 import { ModalService } from "./modal.service";
+import { AuthService } from "../../usuarios/auth.service";
 
 @Component({
   selector: 'detalle-cliente',
@@ -17,7 +18,7 @@ export class DetalleComponent implements OnInit {
   fotoSeleccionada : File;
   progreso: number = 0;
 
-  constructor(private clienteService: ClienteService, public modalService : ModalService) {
+  constructor(private clienteService: ClienteService, public modalService : ModalService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -60,5 +61,9 @@ export class DetalleComponent implements OnInit {
     this.modalService.cerrarModal();
     this.fotoSeleccionada = null;
     this.progreso = 0;
+  }
+
+  public hasRole(role: string) : boolean {
+    return this.authService.hasRole(role);
   }
 }

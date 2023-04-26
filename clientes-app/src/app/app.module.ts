@@ -7,7 +7,7 @@ import { FooterComponent } from "./footer/footer.component";
 import { DirectivaComponent } from './directiva/directiva.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from "./clientes/cliente.service";
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { FormComponent } from './clientes/form.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { RouterModule, Routes } from "@angular/router";
@@ -17,10 +17,14 @@ import { registerLocaleData } from "@angular/common";
 import { LOCALE_ID } from "@angular/core";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from "@angular/material/datepicker";
-import {MatInputModule} from "@angular/material/input";
+import { MatInputModule } from "@angular/material/input";
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { DetalleComponent } from './clientes/detalle/detalle.component';
 import { LoginComponent } from './usuarios/login.component';
+import { AuthGuard } from "./usuarios/guards/auth.guard";
+import { RoleGuard } from "./usuarios/guards/role.guard";
+import { TokenInterceptor } from "./usuarios/interceptors/token.interceptor";
+import { AuthInterceptor } from "./usuarios/interceptors/auth.interceptor";
 
 registerLocaleData(localeEs, 'es');
 
@@ -29,8 +33,8 @@ const routes: Routes = [
   {path: 'directivas', component: DirectivaComponent},
   {path: 'clientes', component: ClientesComponent},
   {path: 'clientes/page/:page', component: ClientesComponent},
-  {path: 'clientes/form', component: FormComponent},
-  {path: 'clientes/form/:id', component: FormComponent},
+  {path: 'clientes/form', component: FormComponent, canActivate : [AuthGuard, RoleGuard], data : {role: 'ROLE_ADMIN'}},
+  {path: 'clientes/form/:id', component: FormComponent, canActivate : [AuthGuard, RoleGuard], data : {role: 'ROLE_ADMIN'}},
   {path: 'login', component: LoginComponent}
 ];
 
@@ -58,7 +62,9 @@ const routes: Routes = [
   ],
   providers: [
     ClienteService,
-    {provide: LOCALE_ID, useValue: 'es'}
+    {provide: LOCALE_ID, useValue: 'es'},
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi : true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi : true}
   ],
   bootstrap: [AppComponent]
 })

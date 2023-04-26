@@ -5,6 +5,7 @@ import swal from "sweetalert2";
 import { tap } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import {ModalService} from "./detalle/modal.service";
+import { AuthService } from "../usuarios/auth.service";
 
 @Component({
   selector: 'app-clientes',
@@ -16,7 +17,7 @@ export class ClientesComponent implements OnInit{
   paginador: any;
   clienteSeleccionado: Cliente;
 
-  constructor(private clienteService : ClienteService, private activatedRoute: ActivatedRoute, private modalService : ModalService) {
+  constructor(private clienteService : ClienteService, private activatedRoute: ActivatedRoute, private modalService : ModalService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -82,5 +83,9 @@ export class ClientesComponent implements OnInit{
   abrirModal(cliente: Cliente) {
     this.clienteSeleccionado = cliente;
     this.modalService.abrirModal();
+  }
+
+  public hasRole(role: string) : boolean {
+    return this.authService.hasRole(role);
   }
 }
