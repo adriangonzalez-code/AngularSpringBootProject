@@ -1,6 +1,7 @@
 package com.driagon.springboot.backend.apirest.app.services;
 
 import com.driagon.springboot.backend.apirest.app.models.Cliente;
+import com.driagon.springboot.backend.apirest.app.models.Factura;
 import com.driagon.springboot.backend.apirest.app.models.Region;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,5 +20,11 @@ public interface IClienteService {
 
     void delete(Long id);
 
-    public List<Region> findAllRegiones();
+    List<Region> findAllRegiones();
+
+    Factura findFacturaById(Long id);
+
+    Factura saveFactura(Factura factura);
+
+    void deleteFacturaById(Long id);
 }

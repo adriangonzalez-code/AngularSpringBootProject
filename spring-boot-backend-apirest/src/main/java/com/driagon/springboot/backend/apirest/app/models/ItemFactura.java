@@ -1,5 +1,7 @@
 package com.driagon.springboot.backend.apirest.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -18,6 +20,7 @@ public class ItemFactura implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
+    @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
     private Producto producto;
 
     public Long getId() {

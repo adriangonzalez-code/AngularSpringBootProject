@@ -1,5 +1,7 @@
 package com.driagon.springboot.backend.apirest.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,10 +30,12 @@ public class Factura implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "facturas"})
     private Cliente cliente;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "factura_id")
+    @JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
     private List<ItemFactura> items;
 
     public Factura() {

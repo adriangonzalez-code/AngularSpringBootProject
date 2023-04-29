@@ -36,6 +36,31 @@
                 <img class="img-thumbnail rounded" *ngIf="cliente?.foto" src="http://localhost:8080/api/clientes/upload/img/{{ cliente.foto }}" alt="">
               </div>
             </div>
+            <div class="alert alert-info my-4" *ngIf="cliente?.facturas.length == 0">No hay facturas asignada para el cliente {{cliente.nombre}} {{cliente.apellido}}</div>
+            <div class="row" *ngIf="cliente?.facturas.length > 0">
+              <table class="table table-bordered table-striped table-hover my-4">
+                <thead>
+                  <tr>
+                    <th>Folio</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Detalle</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let factura of cliente.facturas">
+                    <td>{{ factura.id }}</td>
+                    <td>{{ factura.descripcion }}</td>
+                    <td>{{ factura.createAt }}</td>
+                    <td>{{ factura.total }}</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" type="button" [routerLink]="['/facturas/', factura.id]">Ver</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
