@@ -77,7 +77,7 @@ export class ClientesComponent implements OnInit{
           }
         );
       }
-    })
+    });
   }
 
   abrirModal(cliente: Cliente) {

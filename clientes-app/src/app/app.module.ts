@@ -11,7 +11,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { FormComponent } from './clientes/form.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { RouterModule, Routes } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from "@angular/common";
 import { LOCALE_ID } from "@angular/core";
@@ -26,6 +26,9 @@ import { RoleGuard } from "./usuarios/guards/role.guard";
 import { TokenInterceptor } from "./usuarios/interceptors/token.interceptor";
 import { AuthInterceptor } from "./usuarios/interceptors/auth.interceptor";
 import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
+import { FacturasComponent } from './facturas/facturas.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 registerLocaleData(localeEs, 'es');
 
@@ -37,7 +40,8 @@ const routes: Routes = [
   {path: 'clientes/form', component: FormComponent, canActivate : [AuthGuard, RoleGuard], data : {role: 'ROLE_ADMIN'}},
   {path: 'clientes/form/:id', component: FormComponent, canActivate : [AuthGuard, RoleGuard], data : {role: 'ROLE_ADMIN'}},
   {path: 'login', component: LoginComponent},
-  {path: 'facturas/:id', component: DetalleFacturaComponent}
+  {path: 'facturas/:id', component: DetalleFacturaComponent},
+  {path: 'facturas/form/:clienteId', component: FacturasComponent}
 ];
 
 @NgModule({
@@ -51,7 +55,8 @@ const routes: Routes = [
     PaginatorComponent,
     DetalleComponent,
     LoginComponent,
-    DetalleFacturaComponent
+    DetalleFacturaComponent,
+    FacturasComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +66,11 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatMomentDateModule,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule
+
   ],
   providers: [
     ClienteService,
