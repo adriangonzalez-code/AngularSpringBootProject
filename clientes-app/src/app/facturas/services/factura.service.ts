@@ -28,4 +28,8 @@ export class FacturaService implements OnInit {
     term = term ? term : 'a';
     return this.http.get<Producto[]>(`${this.urlEndpoint}/filtrar-productos/${term}`);
   }
+
+  create(factura: Factura) : Observable<Factura> {
+    return this.http.post<Factura>(this.urlEndpoint, factura);
+  }
 }

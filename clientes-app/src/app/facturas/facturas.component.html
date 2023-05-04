@@ -5,7 +5,7 @@
       <a [routerLink]="['/clientes']" class="btn btn-light btn-xs">&laquo; Volver</a>
     </h4>
 
-    <form>
+    <form #facturaForm="ngForm">
       <div class="form-group row" *ngIf="factura.cliente">
         <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
         <div class="col-sm-6">
@@ -15,7 +15,10 @@
       <div class="form-group row">
         <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" name="descripcion" [(ngModel)]="factura.descripcion" id="descripcion">
+          <input type="text" class="form-control" name="descripcion" [(ngModel)]="factura.descripcion" id="descripcion" required #descripcion="ngModel">
+          <div class="alert alert-danger" *ngIf="descripcion.invalid && descripcion.touched || descripcion.invalid && facturaForm.submitted">
+            La descripción es requerida
+          </div>
         </div>
       </div>
       <div class="form-group row">
@@ -41,10 +44,15 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+          <div class="alert alert-danger" *ngIf="autoCompleteControl.invalid && facturaForm.submitted">
+            Debe tener al menos un producto.
+          </div>
         </div>
       </div>
-
-      <table class="table table-hover table-striped table-sm">
+      <div class="alert alert-info my-4" *ngIf="factura.items.length == 0">
+        No hay líneas para la factura. Debe agregar al menos una.
+      </div>
+      <table class="table table-hover table-striped table-sm" *ngIf="factura.items.length > 0">
         <thead>
           <tr>
             <th>Producto</th>
@@ -68,10 +76,12 @@
           </tr>
         </tbody>
       </table>
-
+      <h5 class="float-right" *ngIf="factura.items.length > 0">
+        Gran Total <span class="badge badge-secondary">{{ factura.calcularGranTotal() }}</span>
+      </h5>
       <div class="form-group row">
         <div class="col-sm-6">
-          <input type="submit" class="btn btn-primary" value="Crear Factura">
+          <input type="submit" class="btn btn-primary" value="Crear Factura" (click)="create(facturaForm)">
         </div>
       </div>
     </form>
