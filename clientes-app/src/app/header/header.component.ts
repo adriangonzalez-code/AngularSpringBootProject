@@ -13,7 +13,7 @@ export class HeaderComponent {
   private _isAuthenticated: boolean;
   private _usuario : Usuario;
 
-  constructor(private authService : AuthService, private router : Router) {
+  constructor(public authService : AuthService, private router : Router) {
 
   }
 
